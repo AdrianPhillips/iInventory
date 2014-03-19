@@ -10,12 +10,12 @@
 
 @interface MyCellarDetail : UIViewController{
     IBOutlet UIImageView *cityImage;
-    IBOutlet UILabel *cityQuantity;
+    IBOutlet UITextView *cityText;
     IBOutlet UILabel *cityName;
     IBOutlet UILabel *stateName;
     IBOutlet UILabel *price;
     NSString *cityImageString;
-    NSString *cityQuantityString;
+    NSString *cityTextString;
     NSString *cityNameString;
     NSString *stateNameString;
     NSString *priceString;
@@ -24,7 +24,7 @@
 }
 
 @property (nonatomic, retain) NSString *cityImageString;
-@property (nonatomic, retain) NSString *cityQuantityString;
+@property (nonatomic, retain) NSString *cityTextString;
 @property (nonatomic, retain) NSString *cityNameString;
 @property (nonatomic, retain) NSString *stateNameString;
 @property (nonatomic, retain) NSString *priceString;
