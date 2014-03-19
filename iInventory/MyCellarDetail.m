@@ -13,7 +13,7 @@
 @end
 
 @implementation MyCellarDetail
-@synthesize cityImageString, cityTextString, cityNameString, stateNameString, priceString;
+@synthesize cityImageString, cityQuantityString, cityNameString, stateNameString, priceString;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,12 +29,12 @@
     [super viewDidLoad];
     
     cityImage.image = [UIImage imageNamed:cityImageString];
-    cityText.text = cityTextString;
+    cityQuantity.text = cityQuantityString;
     cityName.text = cityNameString;
     stateName.text = stateNameString;
     price.text = priceString;
     
-    cityText.backgroundColor = [UIColor clearColor];
+    //cityText.backgroundColor = [UIColor clearColor];
     
     // Name for the image
     NSString *imageName;

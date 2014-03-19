@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    content = [[NSMutableArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Data" ofType:@"plist"]];
+    content = [[NSMutableArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Data1" ofType:@"plist"]];
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:30.0/255.0f green:71.0/255.0f blue:103.0/255.0f alpha:1.0];
     self.navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
@@ -170,7 +170,7 @@
     {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Data.plist"];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:@"Data1.plist"];
         [self.content removeObjectAtIndex:indexPath.row];
         [self.content writeToFile:path atomically:YES];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -205,14 +205,14 @@
         if ([self.searchDisplayController isActive]) {
             NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             DVC.cityImageString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityImage"];
-            DVC.cityTextString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityText"];
+            DVC.cityQuantityString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityText"];
             DVC.cityNameString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"city"];
             DVC.stateNameString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"state"];
             DVC.priceString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityPrice"];
         } else {
             
             NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-            DVC.cityTextString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityText"];
+            DVC.cityQuantityString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityText"];
             DVC.cityNameString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"city"];
             DVC.stateNameString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"state"];
             DVC.cityImageString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityImage"];

@@ -205,14 +205,14 @@
         if ([self.searchDisplayController isActive]) {
             NSIndexPath *indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             DVC.cityImageString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityImage"];
-            DVC.cityTextString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityText"];
+            DVC.cityQuantityString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityText"];
             DVC.cityNameString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"city"];
             DVC.stateNameString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"state"];
             DVC.priceString = [[searchResults objectAtIndex:indexPath.row] valueForKey:@"cityPrice"];
         } else {
             
             NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-            DVC.cityTextString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityText"];
+            DVC.cityQuantityString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityText"];
             DVC.cityNameString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"city"];
             DVC.stateNameString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"state"];
             DVC.cityImageString = [[self.content objectAtIndex:indexPath.row] valueForKey:@"cityImage"];
