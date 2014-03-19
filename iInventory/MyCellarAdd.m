@@ -13,7 +13,7 @@
 @end
 
 @implementation MyCellarAdd
-@synthesize cityTextField, stateTextField, cityDescription, originalTextViewFrame, priceTextField, image;
+@synthesize cityTextField, stateTextField, cityQuantity, priceTextField, image;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    self.cityDescription.backgroundColor = [UIColor clearColor];
+    //self.cityDescription.backgroundColor = [UIColor clearColor];
 }
 
 - (IBAction)save
@@ -70,11 +70,11 @@
         [alertView show];
         return;
     }
-    if (self.cityDescription.text.length == 0)
+    if (self.cityQuantity.text.length == 0)
     {
         UIAlertView* alertView = [[UIAlertView alloc]
                                   initWithTitle:@"Whoops..."
-                                  message:@"Please enter wine description"
+                                  message:@"Please enter wine Quantity"
                                   delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
@@ -86,7 +86,7 @@
     self.name = self.cityTextField.text;
     self.name1 = self.stateTextField.text;
     self.name2 = self.priceTextField.text;
-    self.description = self.cityDescription.text;
+    self.name3 = self.cityQuantity.text;
     
     
     // Name for the image
@@ -115,7 +115,7 @@
     [self createPlistCopyInDocuments:PLIST_NAME];
     NSString *filePath = [self plistFileDocumentPath:PLIST_NAME];
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithContentsOfFile:filePath];
-    NSDictionary *data = @{@"city":self.name,@"state":self.stateTextField.text,@"cityPrice":self.priceTextField.text,@"cityText":self.cityDescription.text, @"cityImage": imageName};
+    NSDictionary *data = @{@"city":self.name,@"state":self.stateTextField.text,@"cityPrice":self.priceTextField.text,@"cityText":self.cityQuantity.text, @"cityImage": imageName};
     [dataArray addObject:data];
     [dataArray writeToFile:filePath atomically:YES];
     
@@ -197,9 +197,9 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
     UITouch *touch = [touches anyObject];
-    if ([cityDescription isFirstResponder] && [touch view] != cityDescription) {
+    if ([cityQuantity isFirstResponder] && [touch view] != cityQuantity) {
         
-        [cityDescription resignFirstResponder];
+        [cityQuantity resignFirstResponder];
     }
 }
 
@@ -207,6 +207,7 @@
     
     [cityTextField resignFirstResponder];
     [stateTextField resignFirstResponder];
+    
 }
 
 #pragma mark -

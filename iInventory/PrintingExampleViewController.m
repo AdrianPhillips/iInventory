@@ -53,17 +53,20 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+
 - (IBAction)pdfPressed:(id)sender {
-    
-    
-    // create some sample data. In a real application, this would come from the database or an API.
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"sampleData" ofType:@"plist"];
-    NSDictionary* data = [NSDictionary dictionaryWithContentsOfFile:path];
-    NSArray* students = [data objectForKey:@"Students"];
+
+     NSArray *sysPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory ,NSUserDomainMask, YES);
+     NSString *documentsDirectory = [sysPaths objectAtIndex:0];
+     NSString *filePath =  [documentsDirectory stringByAppendingPathComponent:@"Data1.plist"];
+     
+     NSLog(@"File Path: %@", filePath);
+     
+     NSArray *students = [NSArray arrayWithContentsOfFile:filePath];
     
     // get a temprorary filename for this PDF
-    path = NSTemporaryDirectory();
-    self.pdfFilePath = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"%f.pdf", [[NSDate date] timeIntervalSince1970] ]];
+    filePath = NSTemporaryDirectory();
+    self.pdfFilePath = [filePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%f.pdf", [[NSDate date] timeIntervalSince1970] ]];
     
     // Create the PDF context using the default page size of 612 x 792.
     // This default is spelled out in the iOS documentation for UIGraphicsBeginPDFContextToFile
@@ -83,6 +86,8 @@
     
     // the max width of the grade is also half, minus the margin
     CGFloat gradeMaxWidth = (maxWidth / 2) - kColumnMargin;
+    CGFloat grade1MaxWidth = (maxWidth / 2) - kColumnMargin;
+    CGFloat grade2MaxWidth = (maxWidth / 2) - kColumnMargin;
     
     
     // only create the fonts once since it is a somewhat expensive operation
@@ -100,9 +105,8 @@
         currentPageY = kMargin;
         
         // draw the student's name at the top of the page.
-        NSString* name = [NSString stringWithFormat:@"%@ %@",
-                          [student objectForKey:@"FirstName"],
-                          [student objectForKey:@"LastName"]];
+        NSString* name = [NSString stringWithFormat:@"%@",
+                          [student valueForKey:@"city"]];
         
         CGSize size = [name sizeWithFont:studentNameFont forWidth:maxWidth lineBreakMode:NSLineBreakByWordWrapping];
         [name drawAtPoint:CGPointMake(kMargin, currentPageY) forWidth:maxWidth withFont:studentNameFont lineBreakMode:NSLineBreakByWordWrapping];
@@ -115,11 +119,13 @@
         CGContextStrokePath(context);
         
         // iterate through the list of classes and add these to the PDF.
-        NSArray* classes = [student objectForKey:@"Classes"];
-        for(NSDictionary* class in classes)
+        //NSArray* classes = [student objectForKey:@"Classes"];
+        for (NSDictionary* student in students)
         {
-            NSString* className = [class objectForKey:@"Name"];
-            NSString* grade = [class objectForKey:@"Grade"];
+            NSString* className = [student valueForKey:@"state"];
+            NSString* grade = [student valueForKey:@"cityPrice"];
+            NSString* grade1 = [student valueForKey:@"cityText"];
+            NSString* grade2 = [student valueForKey:@"cityQuantity"];
             
             // before we render any text to the PDF, we need to measure it, so we'll know where to render the
             // next line.
@@ -136,9 +142,12 @@
             // render the text
             [className drawInRect:CGRectMake(kMargin, currentPageY, classNameMaxWidth, maxHeight) withFont:classFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft];
             
-            // print the grade to the right of the class name
-            [grade drawInRect:CGRectMake(kMargin + classNameMaxWidth + kColumnMargin, currentPageY, gradeMaxWidth, maxHeight) withFont:classFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentLeft];
-            
+            // print the grade to the center of the class name
+            [grade drawInRect:CGRectMake (kMargin , currentPageY, gradeMaxWidth, maxHeight) withFont:classFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentCenter];
+            // print the grade1 to the right of the class name
+            [grade1 drawInRect:CGRectMake(kMargin  , currentPageY, grade1MaxWidth, maxHeight) withFont:classFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
+            currentPageY += size.height;
+            [grade2 drawInRect:CGRectMake(kMargin  , currentPageY, grade2MaxWidth, maxHeight) withFont:classFont lineBreakMode:NSLineBreakByWordWrapping alignment:NSTextAlignmentRight];
             currentPageY += size.height;
             
         }
